@@ -10,7 +10,9 @@ import Magnetic from "@/components/Magnetic";
 import anime from "animejs/lib/anime.es.js";
 import { EVENTS } from "@/data/events";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Home() {
   const heroRef = useRef<HTMLDivElement>(null);

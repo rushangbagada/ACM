@@ -1,19 +1,22 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { Calendar, Users, Target, CheckCircle2, ChevronRight, Activity } from "lucide-react";
+import { Calendar, Users, Target, CheckCircle2, Activity } from "lucide-react";
 import { EVENTS } from "@/data/events";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function EventsClient() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -29,15 +32,15 @@ export default function EventsClient() {
         ease: "power3.out"
       });
 
-      // Animate grid items individually
-      gsap.utils.toArray(".bento-item").forEach((item: any, index: number) => {
-        gsap.from(item, {
+      gsap.utils.toArray(".bento-item").forEach((item) => {
+        const el = item as HTMLElement;
+        gsap.from(el, {
           y: 60,
           opacity: 0,
           duration: 0.8,
           ease: "power3.out",
           scrollTrigger: {
-            trigger: item,
+            trigger: el,
             start: "top 90%",
             toggleActions: "play none none none",
           }
